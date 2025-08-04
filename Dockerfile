@@ -31,4 +31,7 @@ COPY --from=build /app/target/mailGenerator-0.0.1-SNAPSHOT.jar ./app.jar
 EXPOSE 8080
 
 # Define the command to run the application when the container starts
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# The `-Dserver.port=$PORT` part tells Spring Boot to use the port
+# provided by the Render environment variable. This is the key change
+# to resolve the 502 error.
+ENTRYPOINT ["java", "-jar", "-Dserver.port=$PORT", "app.jar"]

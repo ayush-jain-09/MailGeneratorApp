@@ -5,17 +5,14 @@ FROM eclipse-temurin:17-jdk-focal as build
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven project files, including the Maven Wrapper files
-# This is the crucial change to fix the 'command not found' error
-COPY pom.xml .
-COPY mvnw .
-COPY .mvn .
-COPY src ./src
+# Copy the entire project directory, respecting the .dockerignore file.
+COPY . .
 
 # Give the Maven Wrapper script execute permissions
 RUN chmod +x mvnw
 
 # Build the application, creating an executable JAR file.
+# The `spring-boot:repackage` command is used to make it a runnable JAR.
 RUN ./mvnw clean package -DskipTests
 
 # --- Stage 2: Create the final production image ---
@@ -24,7 +21,6 @@ FROM eclipse-temurin:17-jre-focal
 
 # Set the working directory
 WORKDIR /app
-
 
 # Copy the built JAR from the 'build' stage
 COPY --from=build /app/target/mailGenerator-0.0.1-SNAPSHOT.jar ./app.jar

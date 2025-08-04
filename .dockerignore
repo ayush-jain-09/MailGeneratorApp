@@ -1,8 +1,6 @@
 target/
-.mvn/
 .git/
 .gitignore
 .idea/
 *.iml
-mvnw
-mvnw.cmd
+

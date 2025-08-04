@@ -1,6 +1,7 @@
 # --- Stage 1: Build the application ---
 # Use a base image with JDK 21 to build the application
-FROM eclipse-temurin:21-jdk-focal as build
+# This change resolves the "not found" error for the JDK image.
+FROM eclipse-temurin:21-jdk as build
 
 # Set the working directory inside the container
 WORKDIR /app

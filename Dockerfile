@@ -24,7 +24,7 @@ FROM eclipse-temurin:17-jre-focal
 
 # Set the working directory
 WORKDIR /app
-//hii
+
 
 # Copy the built JAR from the 'build' stage
 COPY --from=build /app/target/mailGenerator-0.0.1-SNAPSHOT.jar ./app.jar

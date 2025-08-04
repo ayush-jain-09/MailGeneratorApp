@@ -12,6 +12,9 @@ COPY mvnw .
 COPY .mvn .
 COPY src ./src
 
+# Give the Maven Wrapper script execute permissions
+RUN chmod +x mvnw
+
 # Build the application, creating an executable JAR file.
 RUN ./mvnw clean package -DskipTests
 

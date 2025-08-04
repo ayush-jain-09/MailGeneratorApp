@@ -1,6 +1,7 @@
 # --- Stage 1: Build the application ---
-# Use a base image with the JDK to build the application
-FROM eclipse-temurin:17-jdk-focal as build
+# Use a base image with JDK 21 to build the application
+# This change resolves the "release version 21 not supported" error.
+FROM eclipse-temurin:21-jdk-focal as build
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -16,8 +17,8 @@ RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
 # --- Stage 2: Create the final production image ---
-# Use a smaller, production-ready JRE base image
-FROM eclipse-temurin:17-jre-focal
+# Use a smaller, production-ready JRE base image, also with Java 21
+FROM eclipse-temurin:21-jre-focal
 
 # Set the working directory
 WORKDIR /app

@@ -5,13 +5,14 @@ FROM eclipse-temurin:17-jdk-focal as build
 # Set the working directory inside the container
 WORKDIR /app
 
-# Copy the Maven project files
+# Copy the Maven project files, including the Maven Wrapper files
+# This is the crucial change to fix the 'command not found' error
 COPY pom.xml .
-# Copy the source code
+COPY mvnw .
+COPY .mvn .
 COPY src ./src
 
 # Build the application, creating an executable JAR file.
-# The `spring-boot:repackage` command is used to make it a runnable JAR.
 RUN ./mvnw clean package -DskipTests
 
 # --- Stage 2: Create the final production image ---
@@ -29,4 +30,3 @@ EXPOSE 8080
 
 # Define the command to run the application when the container starts
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
